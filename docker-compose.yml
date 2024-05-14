@@ -1,0 +1,56 @@
+version: "3"
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - .:/app
+    ports:
+      - "3000:3000"
+    depends_on:
+      - todo-db
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+    # command: "npm run dev"
+    networks:
+      - mynetwork
+  todo-db:
+    image: mysql:8.0
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: pass
+      MYSQL_USER: todo-development
+      MYSQL_PASSWORD: todo-development
+      MYSQL_DATABASE: todo-development
+    ports:
+      - '25000:3306'
+    expose:
+      - '3306'
+    volumes:
+      - todo-data:/var/lib/mysql
+    networks:
+      - mynetwork
+  # auth-db-test:
+  #   image: dnhsoft/mysql-utf8:5.7
+  #   restart: always
+  #   environment:
+  #     MYSQL_ROOT_PASSWORD: pass
+  #     MYSQL_USER: auth_db_user-test
+  #     MYSQL_PASSWORD: auth_db_password-test
+  #     MYSQL_DATABASE: auth_db-test
+  #   ports:
+  #     - '25001:3306'   
+  #   expose:
+  #     - '3306'
+  #   volumes:
+  #     - auth-db-data-test:/var/lib/mysql
+volumes:
+  todo-data:
+    driver: local
+  auth-db-data-test:
+    driver: local
+networks:
+  mynetwork:
+    name: mynetwork
