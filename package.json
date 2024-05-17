@@ -1,8 +1,17 @@
 {
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "check": "prettier --check app/*.ts app/**/*.ts app/**/**/*.ts",
+    "format": "prettier --write app/*.ts app/**/*.ts app/**/**/*.ts",
+    "lint": "eslint app/*.ts app/**/*.ts app/**/**/*.ts",
+    "build": "tsc && cp ./production/gac.json ./dist &&",
+    "dev": "nodemon -L"
+  },
   "dependencies": {
     "express": "^4.19.2",
     "mysql2": "^3.9.7",
     "sequelize": "^6.37.3",
-    "sequelize-cli": "^6.6.2"
+    "sequelize-cli": "^6.6.2",
+    "@google-cloud/cloud-sql-connector": "^1.2.4"
   }
 }
